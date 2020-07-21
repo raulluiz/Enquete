@@ -3,14 +3,16 @@ using Enquete.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Enquete.Infrastructure.Migrations
 {
     [DbContext(typeof(EnqueteContext))]
-    partial class EnqueteContextModelSnapshot : ModelSnapshot
+    [Migration("20200721124042_PollOption")]
+    partial class PollOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

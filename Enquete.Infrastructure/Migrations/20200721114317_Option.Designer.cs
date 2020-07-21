@@ -3,14 +3,16 @@ using Enquete.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Enquete.Infrastructure.Migrations
 {
     [DbContext(typeof(EnqueteContext))]
-    partial class EnqueteContextModelSnapshot : ModelSnapshot
+    [Migration("20200721114317_Option")]
+    partial class Option
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,19 +46,6 @@ namespace Enquete.Infrastructure.Migrations
                     b.HasKey("PollId");
 
                     b.ToTable("Poll");
-                });
-
-            modelBuilder.Entity("Enquete.ApplicationCore.Entities.PollOption", b =>
-                {
-                    b.Property<int>("PollId");
-
-                    b.Property<int>("OptionId");
-
-                    b.HasKey("PollId", "OptionId");
-
-                    b.HasAlternateKey("OptionId", "PollId");
-
-                    b.ToTable("PollOption");
                 });
 #pragma warning restore 612, 618
         }

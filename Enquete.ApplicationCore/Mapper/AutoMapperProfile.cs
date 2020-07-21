@@ -14,6 +14,12 @@ namespace Enquete.ApplicationCore.Mapper
             CreateMap<Poll, PollVM>();
             CreateMap<PollVM, Poll>();
 
+            CreateMap<Option, OptionVM>();
+            CreateMap<OptionVM, Option>();
+
+            CreateMap<PollOption, PollOptionVM>();
+            CreateMap<PollOptionVM, PollOption>();
+
             #endregion
         }
 

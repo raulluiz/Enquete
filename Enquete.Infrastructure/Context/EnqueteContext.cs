@@ -15,12 +15,17 @@ namespace Enquete.Infrastructure.Context
         public EnqueteContext(DbContextOptions<EnqueteContext> opcoes) : base(opcoes) { }
 
         public DbSet<Poll> Poll { get; set; }
+        public DbSet<Option> Option { get; set; }
+        public DbSet<PollOption> PollOption { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration.Remove<PluralizingTableNameConvention>(); //plularização de objetos
             //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>(); //deleção em cascata de filho
             modelBuilder.ApplyConfiguration(new PoolConfig());
+            modelBuilder.ApplyConfiguration(new OptionConfig());
+            modelBuilder.ApplyConfiguration(new PollOptionConfig());
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -16,8 +16,8 @@ namespace Enquete.IoC
         {
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IPollService, PollService>();
-
-
+            services.AddScoped<IOptionService, OptionService>();
+            services.AddScoped<IPollOptionService, PollOptionService>();
 
             RegisterRepository(services);
             RegisterContext(services);
@@ -29,7 +29,8 @@ namespace Enquete.IoC
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IPollRepository, PollRepository>();
-
+            services.AddScoped<IOptionRepository, OptionRepository>();
+            services.AddScoped<IPollOptionRepository, PollOptionRepository>();
 
             return services;
         }
