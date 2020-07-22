@@ -16,24 +16,49 @@ namespace Enquete.Api.Controllers
 
         #region Injeção de Dependência
         private readonly IPollService _pollService;
+        private readonly IPollOptionService _pollOptionService;
+        private readonly IOptionService _optionService;
         private readonly IMapper _mapper;
 
-        public PollController(IPollService pollService, IMapper mapper)
+        public PollController(IPollService pollService, IMapper mapper, IPollOptionService pollOptionService, IOptionService optionService)
         {
             _pollService = pollService;
             _mapper = mapper;
+            _pollOptionService = pollOptionService;
+            _optionService = optionService;
         }
         #endregion
 
-        // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<string>> Get(int id)
         {
             try
             {
-                var polls = _mapper.Map<List<PollVM>>(_pollService.GetAll().ToList());
+                var poll = _mapper.Map<PollOptionsVM>(_pollService.GetById(id));
+                if (poll == null)
+                    return NotFound();
+                _pollService.UpdateViews(id);
+                var pollOption = _mapper.Map<PollOptionsVM>(poll);
+                pollOption.Options = _pollOptionService.GetOptionsByPoll(id);
 
-                return Ok(polls);
+                return Ok(poll);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult<string> Post([FromBody] PollOptionsJsonVM poll)
+        {
+            try
+            {
+                var pollId = _pollService.SavePoll(poll);
+
+                return Ok(new { poll_id = pollId });
             }
             catch (Exception)
             {
@@ -42,29 +67,48 @@ namespace Enquete.Api.Controllers
             }
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpPost("{id:int}/vote")]
+        public ActionResult<IEnumerable<string>> Post(int id, [FromBody] OptionVoteVM option)
         {
-            return "value";
+            try
+            {
+                var poll = _mapper.Map<PollVM>(_pollService.GetById(id));
+                if (poll == null)
+                    return NotFound();
+
+                option.Id = id;
+                _optionService.Vote(option);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+                throw;
+            }
+            
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("{id:int}/stats")]
+        public ActionResult<IEnumerable<string>> Stats(int id)
         {
-        }
+            try
+            {
+                StatsVM stats = new StatsVM();
+                var poll = _pollService.GetById(id);
+                if (poll == null)
+                    return NotFound();
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+                stats.Views = poll.Views;
+                stats.votes = _optionService.GetOptionStats(id);
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                return Ok(stats);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+                throw;
+            }
         }
     }
 }

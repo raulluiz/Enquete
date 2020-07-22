@@ -13,6 +13,5 @@ namespace Enquete.ApplicationCore.Interfaces.Services
         TEntity GetById(int id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         void Remove(TEntity entity);
-        //void Dispose();
     }
 }

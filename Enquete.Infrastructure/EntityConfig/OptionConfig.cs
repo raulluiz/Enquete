@@ -15,6 +15,7 @@ namespace Enquete.Infrastructure.EntityConfig
             builder.HasKey(c => c.OptionId);
             builder.Property(c => c.OptionId).ValueGeneratedOnAdd();
             builder.Property(c => c.OptionDescription);
+            builder.Property(c => c.Qty);
         }
     }
 }

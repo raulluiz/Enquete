@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Enquete.ApplicationCore.ViewModels
 {
-    public class PollOptionVM
+    public class StatsVM
     {
-        public int PollId { get; set; }
-        public int OptionId { get; set; }
+        public int Views { get; set; }
+        public List<OptionStatsVM> votes { get; set; }
     }
 }

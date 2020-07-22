@@ -12,5 +12,16 @@ namespace Enquete.ApplicationCore.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OptionId { get; private set; }
         public string OptionDescription { get; private set; }
+        public int Qty { get; set; }
+
+        public Option(string optionDescription)
+        {
+            this.OptionDescription = optionDescription;
+        }
+
+        public void Vote()
+        {
+            this.Qty += 1;
+        }
     }
 }

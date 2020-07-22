@@ -14,6 +14,15 @@ namespace Enquete.ApplicationCore.Entities
         public string PollDescription { get; private set; }
         public int Views { get; private set; }
 
-        public Poll() { }
+        public Poll(string pollDescription, int views) 
+        {
+            this.PollDescription = pollDescription;
+            this.Views = views;
+        }
+
+        public void UpdateViews()
+        {
+            this.Views += 1;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Enquete.ApplicationCore.Entities;
+using Enquete.ApplicationCore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
